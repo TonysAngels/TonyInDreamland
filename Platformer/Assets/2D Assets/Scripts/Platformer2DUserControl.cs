@@ -4,8 +4,11 @@
 public class Platformer2DUserControl : MonoBehaviour 
 {
 	private PlatformerCharacter2D character;
+
+	private int maxAirJumps = 1;
+	private int airJumpsLeft = 0;
+
     public bool jump;
-	public bool doublejump= false;
 
 	void Awake()
 	{
@@ -14,30 +17,35 @@ public class Platformer2DUserControl : MonoBehaviour
 
     void Update ()
     {
-        // Read the jump input in Update so button presses aren't missed.
 
-       // if (CrossPlatformInput.GetButtonDown("Jump")) jump = true;
+		if (character.grounded) {
+			airJumpsLeft = maxAirJumps;
+		}
 
-	//	if (Input.GetButtonDown("Jump") && character.grounded) jump = true;
-		if (Input.GetButtonDown("Jump")) jump = true;
-		if (Input.GetButtonDown ("Jump") && (jump == true && doublejump==false))
-			doublejump = true;
+		if (Input.GetButtonDown("Jump")) {
+			if (character.grounded) {
+				jump = true;
+			} else if (airJumpsLeft > 0) {
+				airJumpsLeft--;
+				jump = true;
+			}
+
+		}
+
+
     }
 
 	void FixedUpdate()
 	{
-		// Read the inputs.
 		bool crouch = Input.GetKey(KeyCode.LeftControl);
-	//	#if CROSS_PLATFORM_INPUT
-	//	float h = CrossPlatformInput.GetAxis("Horizontal");
-	//	#else
+		//	#if CROSS_PLATFORM_INPUT
+		//	float h = CrossPlatformInput.GetAxis("Horizontal");
+		//	#else
 		float h = Input.GetAxis("Horizontal");
-	//	#endif
-
+		//	#endif
+		
 		// Pass all parameters to the character control script.
-		character.Move( h, crouch , jump , doublejump);
-		doublejump = false;
-        // Reset the jump input once it has been used.
-	    jump = false;
+		character.Move( h, crouch, jump);
+		jump = false;
 	}
 }
