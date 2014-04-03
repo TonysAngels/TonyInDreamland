@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+
 [RequireComponent(typeof(PlatformerCharacter2D))]
 public class Platformer2DUserControl : MonoBehaviour 
 {
@@ -7,7 +8,11 @@ public class Platformer2DUserControl : MonoBehaviour
 
 	private int maxAirJumps = 1;
 	private int airJumpsLeft = 0;
-
+	public float shotSpeed;
+	public GameObject shot;
+	public Transform shotSpawn;
+	public float fireRate;
+	private float nextFire;
     public bool jump;
 
 	void Awake()
@@ -21,7 +26,18 @@ public class Platformer2DUserControl : MonoBehaviour
 		if (character.grounded) {
 			airJumpsLeft = maxAirJumps;
 		}
-
+		if (Input.GetKey (KeyCode.F) && Time.time > nextFire) {
+						nextFire = Time.time + fireRate;
+					
+						if (character.facingRight) {
+								GameObject shotInstance = Instantiate (shot, shotSpawn.position, Quaternion.Euler (new Vector3 (0, 0, 0)))  as GameObject;
+								shotInstance.rigidbody2D.velocity = new Vector2 (shotSpeed, 0);
+						} 
+						else{
+								GameObject shotInstance = Instantiate (shot, shotSpawn.position, Quaternion.Euler (new Vector3 (0, 0, 180f))) as GameObject;
+								shotInstance.rigidbody2D.velocity = new Vector2 (-shotSpeed, 0);
+						}
+		}
 		if (Input.GetButtonDown("Jump")) {
 			if (character.grounded) {
 				jump = true;
@@ -37,6 +53,7 @@ public class Platformer2DUserControl : MonoBehaviour
 
 	void FixedUpdate()
 	{
+
 		bool crouch = Input.GetKey(KeyCode.LeftControl);
 		//	#if CROSS_PLATFORM_INPUT
 		//	float h = CrossPlatformInput.GetAxis("Horizontal");
