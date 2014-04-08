@@ -36,4 +36,6 @@ Thumbs.db
 # ======== #
 # Our Junk #
 # ======== #
-Platform\LibraryScriptAssemblies\CompilationCompleted.txt
+CompilationCompleted.txt
+.meta
+metadata/
