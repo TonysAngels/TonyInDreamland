@@ -63,13 +63,31 @@ public class PlatformerCharacter2D : MonoBehaviour
 		if(grounded || airControl)
 		{
 			// Reduce the speed if crouching by the crouchSpeed multiplier
-			move = (crouch ? move * crouchSpeed : move);
+			float maxMove = (crouch ? move * crouchSpeed : move);
 
 			// The Speed animator parameter is set to the absolute value of the horizontal input.
-			anim.SetFloat("Speed", Mathf.Abs(move));
+			anim.SetFloat("Speed", Mathf.Abs(maxMove));
 
 			// Move the character
+			/**
+			 * 
+			 *	Momentum: needs work 
+			 * 
+			 **/
+			if (grounded) {
+				rigidbody2D.AddForce(new Vector2(maxMove * Time.deltaTime * 1000f, 0));
+			} else {
+				rigidbody2D.AddForce(new Vector2(maxMove * Time.deltaTime * 500f, 0));
+			}
+			if (Mathf.Abs(rigidbody2D.velocity.x) > Mathf.Abs(maxMove * maxSpeed)) {
+				rigidbody2D.velocity = new Vector2(move * maxSpeed, rigidbody2D.velocity.y);
+			}
+
+			/**
+			 * Regular
+			 * 
 			rigidbody2D.velocity = new Vector2(move * maxSpeed, rigidbody2D.velocity.y);
+			*/
 
 			// If the input is moving the player right and the player is facing left...
 			if(move > 0 && !facingRight)
