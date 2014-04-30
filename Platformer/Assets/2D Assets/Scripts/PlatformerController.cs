@@ -72,10 +72,20 @@ public class PlatformerController : MonoBehaviour
         //public float lastStartHeight = 0.0f;  // The height we jumped from (Used to determine for how long to apply extra jump power after jumping.)
     }
 
+	public class PlatformerControllerProperties
+	{
+		public int maxHealth = 3; //Hearts?
+		public int health; 
+		public float invincibleTime = 0.0f;
+		public float invincTimer = 2f;
+
+		public object[] subweapons; //TODO: Deal with subweapon objects, which is selected and what are unlocked, blah blah blah...
+	}
  
 
     public PlatformerControllerMovement movement;
     public PlatformerControllerJumping jump;
+	public PlatformerControllerProperties properties;
     CharacterController controller;
 
     public void Start()
@@ -100,6 +110,10 @@ public class PlatformerController : MonoBehaviour
 
     public void Spawn()
     {
+		properties.health = properties.maxHealth; // Reset health
+
+		properties.health = 500; //TEMP FOR NOW, DELETE 
+
         // Reset the character's speed
         movement.verticalSpeed = 0.0f;
         movement.horizontalSpeed = 0.0f;
@@ -417,7 +431,7 @@ public class PlatformerController : MonoBehaviour
         return false;
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+  /*  void OnControllerColliderHit(ControllerColliderHit hit)
     {
         //Trigger climbing lock
         if (hit.gameObject.tag == "Climbable")
@@ -454,8 +468,78 @@ public class PlatformerController : MonoBehaviour
         //End if Climable
 		
 		if (hit.gameObject.tag == "Enemy") {
-			OnDeath();
+			if (hit.moveDirection.x != 0)
+			{
+				if (hit.point.x < transform.position.x)
+				{
+					onEnemyHit(-1); //Hit left
+				}
+				else
+				{
+					onEnemyHit(1); //Hit right
+				}
+			}
 		}
-    }
-	
+    }*/
+
+	public void onEnemyHit(int dir)
+	{
+		Debug.Log (properties.health);
+		if (Time.time < properties.invincibleTime)
+		{
+			// Invincible to enemies
+		}
+		else
+		{
+			// Set invincibility time
+			properties.invincibleTime = Time.time + properties.invincTimer;
+			
+			properties.health--;
+			if (properties.health <= 0) {
+				OnDeath();
+			}
+
+			// Create vector for changing position
+			Vector3 tempPos = this.transform.position;
+			
+			// Hit stun
+			if (dir == -1)
+			{
+				tempPos.x += 3.0f; //hit left side of player and send right
+			}
+			else
+			{
+				tempPos.x -= 3.0f; //hit right side and send left
+			}
+			this.transform.position = tempPos;
+		}
+	}
+
+	public void attacked(bool isAttacked)
+	{
+		if (isAttacked) {
+			Debug.Log("Enemy has collided with player");
+		}
+	}
+
+	void checkInvincible()
+	{
+		// Grant temporary immunity with timer
+		if (Time.time < properties.invincibleTime)
+		{
+			//TODO: Change color or something
+			
+			// Disable collision
+			this.gameObject.collider.enabled = false;
+		}
+		else if (Time.time >= properties.invincibleTime)
+		{
+
+			//TODO: Change color back
+			
+			// Enable collision
+			this.gameObject.collider.enabled = true;
+		}
+	}
+
 }

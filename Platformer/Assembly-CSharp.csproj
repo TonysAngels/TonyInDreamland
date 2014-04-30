@@ -48,13 +48,15 @@
   <ItemGroup>
      <Compile Include="Assets\2D Assets\Scripts\Camera2DFollow.cs" />
      <Compile Include="Assets\2D Assets\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\2D Assets\Scripts\Enemy\Goon.cs" />
+     <Compile Include="Assets\2D Assets\Scripts\Enemy\ParentEnemy.cs" />
      <Compile Include="Assets\2D Assets\Scripts\Platformer2DUserControl.cs" />
      <Compile Include="Assets\2D Assets\Scripts\PlatformerCharacter2D.cs" />
      <Compile Include="Assets\2D Assets\Scripts\PlatformerController.cs" />
      <Compile Include="Assets\2D Assets\Scripts\Restarter.cs" />
      <Compile Include="Assets\2D Assets\Scripts\Stage 1\FallAway.cs" />
+     <Compile Include="Assets\2D Assets\Scripts\Stage 1\MovingPlatform1.cs" />
      <Compile Include="Assets\2D Assets\Scripts\Stage 1\TreeFallen.cs" />
-     <Compile Include="Assets\MovingPlatform1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

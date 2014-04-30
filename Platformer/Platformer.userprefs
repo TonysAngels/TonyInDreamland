@@ -1,8 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MovingPlatform1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\2D Assets\Scripts\Enemy\ParentEnemy.cs">
     <Files>
-      <File FileName="Assets\MovingPlatform1.cs" Line="15" Column="2" />
+      <File FileName="Assets\2D Assets\Scripts\PlatformerController.cs" Line="543" Column="3" />
+      <File FileName="Assets\2D Assets\Scripts\Enemy\ParentEnemy.cs" Line="30" Column="3" />
+      <File FileName="Assets\2D Assets\Scripts\Enemy\Goon.cs" Line="23" Column="1" />
+      <File FileName="Assets\2D Assets\Scripts\Stage 1\MovingPlatform1.cs" Line="1" Column="1" />
+      <File FileName="Assets\2D Assets\Scripts\PlatformerCharacter2D.cs" Line="62" Column="24" />
+      <File FileName="Assets\2D Assets\Scripts\Restarter.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

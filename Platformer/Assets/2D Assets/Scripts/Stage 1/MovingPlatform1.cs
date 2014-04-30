@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovingPlatform1 : MonoBehaviour {
+public class MovingPlatform1 : MonoBehaviour { // I'll change all of this later, my logic here sucks haha
 
 	public float xSpeed;
 	public float ySpeed;

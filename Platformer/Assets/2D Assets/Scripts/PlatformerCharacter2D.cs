@@ -24,6 +24,16 @@ public class PlatformerCharacter2D : MonoBehaviour
 	float ceilingRadius = .01f;							// Radius of the overlap circle to determine if the player can stand up
 	Animator anim;										// Reference to the player's animator component.
 
+	//properties
+	public int maxHealth = 3; //Hearts?
+	public int health; 
+	public float invincibleTime = 0.0f;
+	public float invincTimer = 2f;
+	
+	public object[] subweapons; //TODO: Deal with subweapon objects, which is selected and what are unlocked, blah blah blah...
+	
+
+
 
     void Awake()
 	{
@@ -31,8 +41,13 @@ public class PlatformerCharacter2D : MonoBehaviour
 		groundCheck = transform.Find("GroundCheck");
 		ceilingCheck = transform.Find("CeilingCheck");
 		anim = GetComponent<Animator>();
+		Spawn();
 	}
 
+	public void Spawn()
+	{
+		health = maxHealth; //Reset Health
+	}
 
 	void FixedUpdate()
 	{
@@ -44,6 +59,65 @@ public class PlatformerCharacter2D : MonoBehaviour
 		anim.SetFloat("vSpeed", rigidbody2D.velocity.y);
 	}
 
+	public void onEnemyHit(int dir)
+	{
+		Debug.Log (health);
+		if (Time.time < invincibleTime)
+		{
+			// Invincible to enemies
+		}
+		else
+		{
+			// Set invincibility time
+			invincibleTime = Time.time + invincTimer;
+			
+			health--;
+			if (health <= 0) {
+				Spawn();
+			}
+			
+			// Create vector for changing position
+			Vector3 tempPos = this.transform.position;
+			
+			// Hit stun
+			if (dir == -1)
+			{
+				tempPos.x += 3.0f; //hit left side of player and send right
+			}
+			else
+			{
+				tempPos.x -= 3.0f; //hit right side and send left
+			}
+			this.transform.position = tempPos;
+		}
+	}
+	
+	public void attacked(bool isAttacked)
+	{
+		if (isAttacked) {
+			Debug.Log("Enemy has collided with player");
+		}
+	}
+	
+	void checkInvincible()
+	{
+		// Grant temporary immunity with timer
+		if (Time.time < invincibleTime)
+		{
+			//TODO: Change color or something
+			
+			// Disable collision
+			this.gameObject.collider.enabled = false;
+		}
+		else if (Time.time >= invincibleTime)
+		{
+			
+			//TODO: Change color back
+			
+			// Enable collision
+			this.gameObject.collider.enabled = true;
+		}
+	}
 
 	public void Move(float move, bool crouch, bool jump)
 	{
