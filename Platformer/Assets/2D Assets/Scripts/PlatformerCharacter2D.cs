@@ -2,7 +2,7 @@
 using System.Collections;
 public class PlatformerCharacter2D : MonoBehaviour 
 {
-	bool facingRight = true;							// For determining which way the player is currently facing.
+	public bool facingRight = true;							// For determining which way the player is currently facing.
 
 	float maxSpeed = 8.5f;				// The fastest the player can travel in the x axis.
 	[SerializeField] float jumpForce = 400f;			// Amount of force added when the player jumps.	
